@@ -1,5 +1,3 @@
-#' Create a pitch plot ready for Statsbomb data
-#'
 #' Creating a pitch plot using ggplot2 that is ready to plot actions on top. Numerous options allow customisation.
 #'
 #' @param pitch_length Length of the pitch. Always the long side. Default 105
@@ -337,8 +335,8 @@ draw_pitch <- function(pitch_length = 105,
 
 }
 
-ggplot() + draw_pitch(pitch_layout = "vertical")
-ggplot() + draw_pitch()
-ggplot() + draw_pitch(pitch_section = "att_half")
-ggplot() + draw_pitch(pitch_layout = "vertical", BasicFeatures = TRUE)
-ggplot() + draw_pitch(pitch_layout = "vertical", pitch_section = "att_half", BasicFeatures = TRUE)
+# ggplot() + draw_pitch(pitch_layout = "vertical")
+# ggplot() + draw_pitch()
+# ggplot() + draw_pitch(pitch_section = "att_half")
+# ggplot() + draw_pitch(pitch_layout = "vertical", BasicFeatures = TRUE)
+# ggplot() + draw_pitch(pitch_layout = "vertical", pitch_section = "att_half", BasicFeatures = FALSE)
