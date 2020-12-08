@@ -1,6 +1,6 @@
 Package: soccr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Custom Functions For Soccer Data
 Version: 0.1.0
 Author: Sean Steele
 Maintainer: The package maintainer <seansteele@mac.com>
