@@ -341,6 +341,7 @@ draw_pitch <- function(pitch_length = 105,
 
 }
 
-ggplot() + draw_pitch(pitch_layout = "vertical")
-ggplot() + draw_pitch(pitch_layout = "horizontal", overlay = "grid_30")
-ggplot() + draw_pitch(pitch_layout = "vertical", overlay = "grid_30")
+# Example usage
+# ggplot() + draw_pitch(pitch_layout = "vertical")
+# ggplot() + draw_pitch(pitch_layout = "horizontal", overlay = "grid_30")
+# ggplot() + draw_pitch(pitch_layout = "vertical", overlay = "grid_30")

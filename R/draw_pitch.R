@@ -335,6 +335,7 @@ draw_pitch <- function(pitch_length = 105,
 
 }
 
+# Example usage
 # ggplot() + draw_pitch(pitch_layout = "vertical")
 # ggplot() + draw_pitch()
 # ggplot() + draw_pitch(pitch_section = "att_half")
