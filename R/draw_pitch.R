@@ -62,38 +62,16 @@ draw_pitch <- function(pitch_length = 105,
       plot.title=element_text(size=size*1.2),
       strip.text.y=element_text(colour=background_colour,size=size,angle=270),
       strip.text.x=element_text(size=size*1))}
-  if(pitch_section == "full"){
-      ymin <- 0 # minimum width
-      ymax <- pitch_width # maximum width
-      xmin <- 0 # minimum length
-      xmax <- pitch_length # maximum length
-  }else if (pitch_section == "att_half"){
-      ymin <- 0 # minimum width
-      ymax <- pitch_width # maximum width
-      xmin <- (pitch_length/2) # minimum length
-      xmax <- pitch_length # maximum length
-  }
 
-  # Defining features along the length (x axis)
-  boxEdgeDef <- 16.5
-  boxEdgeOff <- xmax - 16.5
-  halfwayline <- xmax/2
-  sixYardDef <- 5.5
-  sixYardOff <- xmax-5.5
-  penSpotDef <- 11
-  penSpotOff <- xmax-11
-
-  # Defining features along the width (y axis)
-  boxEdgeLeft <- ymax/2 - 20.15 #18
-  boxEdgeRight <- ymax/2 + 20.15
-  sixYardLeft <- ymax/2 - 9.16
-  sixYardRight <- ymax/2 + 9.16
-  goalPostLeft <- ymax/2 - 3.66
-  goalPostRight <- ymax/2 + 3.66
-  CentreSpot <- ymax/2
-
-  # other dimensions
-  centreCirle_d <- 18.3
+  ## Define orientation of pitch
+  if(pitch_layout == "vertical"){
+    temp_length <- pitch_length
+    temp_width <- pitch_width
+    pitch_length <- temp_width
+    pitch_width <- temp_length
+  #   # ymin <- pitch_length/2
+  #   # ymax <- pitch_length/2
+  }else{}
 
   ## define the circle function
   circleFun <- function(center = c(0,0),diameter = 1, npoints = 100){
@@ -104,18 +82,97 @@ draw_pitch <- function(pitch_length = 105,
     return(data.frame(x = xx, y = yy))
   }
 
-  #### create center circle ####
-  center_circle <- circleFun(c(halfwayline,CentreSpot),centreCirle_d,npoints = 100)
+  ## Define whether the pitch is a full field or a section
+  if(pitch_section == "full"){
+    ymin <- 0 # minimum width
+    ymax <- pitch_width # maximum width
+    xmin <- 0 # minimum length
+    xmax <- pitch_length # maximum length
+  }else if (pitch_section == "att_half"){
+    ymin <- 0 # minimum width
+    ymax <- pitch_width # maximum width
+    xmin <- (pitch_length/2) # minimum length
+    xmax <- pitch_length # maximum length
+  }else{
+    ymin <- 0 # minimum width
+    ymax <- pitch_width # maximum width
+    xmin <- 0 # minimum length
+    xmax <- pitch_length # maximum length
+  }
 
-  #### create leftD arc ####
-  dArcDef <- circleFun(c(penSpotDef,CentreSpot),centreCirle_d,npoints = 1000)
-  ## remove part that is in the box
-  dArcDef <- dArcDef[which(dArcDef$x >= (boxEdgeDef)),]
+  ## Define orientation of the pitch
+  if(pitch_layout == "horizontal"){
 
-  #### create rightD arc ####
-  dArcOff <- circleFun(c(penSpotOff,CentreSpot),centreCirle_d,npoints = 1000)
-  ## remove part that is in the box
-  dArcOff <- dArcOff[which(dArcOff$x <= (boxEdgeOff)),]
+    # Defining features along the length (x axis)
+    boxEdgeDef <- 16.5
+    boxEdgeOff <- xmax - 16.5
+    halfwayline <- xmax/2
+    # halfwayline <- if(pitch_layout == "horizontal"){xmax/2}else{ymin}
+    sixYardDef <- 5.5
+    sixYardOff <- xmax-5.5
+    penSpotDef <- 11
+    penSpotOff <- xmax-11
+
+    # Defining features along the width (y axis)
+    boxEdgeLeft <- ymax/2 - 20.15 #18
+    boxEdgeRight <- ymax/2 + 20.15
+    sixYardLeft <- ymax/2 - 9.16
+    sixYardRight <- ymax/2 + 9.16
+    goalPostLeft <- ymax/2 - 3.66
+    goalPostRight <- ymax/2 + 3.66
+    CentreSpot <- ymax/2
+
+    # other dimensions
+    centreCirle_d <- 18.3
+
+    #### create center circle ####
+    center_circle <- circleFun(c(halfwayline,CentreSpot),centreCirle_d,npoints = 100)
+
+    #### create leftD arc ####
+    dArcDef <- circleFun(c(penSpotDef,CentreSpot),centreCirle_d,npoints = 1000)
+    ## remove part that is in the box
+    dArcDef <- dArcDef[which(dArcDef$x >= (boxEdgeDef)),]
+
+    #### create rightD arc ####
+    dArcOff <- circleFun(c(penSpotOff,CentreSpot),centreCirle_d,npoints = 1000)
+    ## remove part that is in the box
+    dArcOff <- dArcOff[which(dArcOff$x <= (boxEdgeOff)),]
+  }else{
+    # Defining features along the length (x axis)
+    boxEdgeDef <- 16.5
+    boxEdgeOff <- ymax - 16.5
+    halfwayline <- ymax/2
+    # halfwayline <- if(pitch_layout == "horizontal"){xmax/2}else{ymin}
+    sixYardDef <- 5.5
+    sixYardOff <- ymax-5.5
+    penSpotDef <- xmax/2
+    penSpotOff <- xmax/2
+
+    # Defining features along the width (y axis)
+    boxEdgeLeft <- ymax/2 - 20.15 #18
+    boxEdgeRight <- ymax/2 + 20.15
+    sixYardLeft <- ymax/2 - 9.16
+    sixYardRight <- ymax/2 + 9.16
+    goalPostLeft <- ymax/2 - 3.66
+    goalPostRight <- ymax/2 + 3.66
+    CentreSpot <- xmax/2
+
+    # other dimensions
+    centreCirle_d <- 18.3
+
+    #### create center circle ####
+    center_circle <- circleFun(c(halfwayline,CentreSpot),centreCirle_d,npoints = 100)
+
+    #### create leftD arc ####
+    dArcDef <- circleFun(c(penSpotDef,CentreSpot),centreCirle_d,npoints = 1000)
+    ## remove part that is in the box
+    dArcDef <- dArcDef[which(dArcDef$x >= (boxEdgeDef)),]
+
+    #### create rightD arc ####
+    dArcOff <- circleFun(c(penSpotOff,CentreSpot),centreCirle_d,npoints = 1000)
+    ## remove part that is in the box
+    dArcOff <- dArcOff[which(dArcOff$x <= (boxEdgeOff)),]
+  }
 
   ### FIRST STAGE
   ## initiate the plot, set some boundries to the plot
@@ -156,6 +213,8 @@ draw_pitch <- function(pitch_length = 105,
       geom_rect(aes(xmin=boxEdgeOff, xmax=xmax, ymin=boxEdgeLeft, ymax=boxEdgeRight), fill = grass_colour, colour = line_colour),
       # add halway line
       geom_segment(aes(x = halfwayline, y = ymin, xend = halfwayline, yend = ymax),colour = line_colour),
+      # if(pitch_layout == "horizontal"){geom_segment(aes(x = halfwayline, y = ymin, xend = halfwayline, yend = ymax),colour = line_colour)
+      #   }else{geom_segment(aes(y = halfwayline, x = ymin, yend = halfwayline, xend = ymax),colour = line_colour)},
       # add the six yard box Defensive
       geom_rect(aes(xmin=xmin, xmax=sixYardDef, ymin=sixYardLeft, ymax=sixYardRight), fill = grass_colour, colour = line_colour),
       # add the six yard box offensive
@@ -275,11 +334,13 @@ draw_pitch <- function(pitch_length = 105,
       # add d arc defensive
       geom_path(data=dArcDef, aes(x=x,y=y), colour = line_colour))
 
-  list8 <- list(coord_fixed()# maintain aspect ration when resized
+  list8 <- list(coord_fixed() # maintain aspect ration when resized
                 )
   p <- c(list1, list2, list3, list4, list5, list6, list7, list8)
   return(p)
 
 }
 
-ggplot() + draw_pitch(pitch_section = "att_half")
+ggplot() + draw_pitch(pitch_layout = "vertical")
+ggplot() + draw_pitch(pitch_layout = "horizontal", overlay = "grid_30")
+ggplot() + draw_pitch(pitch_layout = "vertical", overlay = "grid_30")
