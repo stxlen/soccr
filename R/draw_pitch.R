@@ -2,7 +2,11 @@
 #'
 #' Creating a pitch plot using ggplot2 that is ready to plot actions on top. Numerous options allow customisation.
 #'
-#' @param layout Plot the pitch vertical or horizontal. Default "horizontal"
+#' @param pitch_length Length of the pitch. Always the long side. Default 105
+#' @param pitch_width Width of the pitch. Default 68
+#' @param pitch_units Units of measure in "meters" or "yards". Default "meters"
+#' @param pitch_layout Plot the pitch vertical or horizontal. Default "horizontal"
+#' @param pitch_section Full or subsection of field. "full", "att_half". Default "full"
 #' @param grass_colour A string as a colour by word or #HEX code
 #' @param line_colour A string as a colour by word or #HEX code
 #' @param background_colour A string as a colour by word or #HEX code
@@ -10,11 +14,25 @@
 #' @param goaltype String, either "line", "box" or "barcanumbers". Default "line"
 #' @param middlethird Boolean. Default FALSE
 #' @param BasicFeatures Boolean. Default FALSE
-#' @param JdeP Boolean. Default FALSE
+#' @param overlay Draw lines on top of the field. "JdeP" "grid_30" or FALSE
 #' @param padding Numeric. Default = 5
 #' @return A plot of a pitch
 #' @export
-draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_colour = "#A9A9A9", background_colour = "#ffffff", goal_colour = "#000000", goaltype = "line", middlethird = FALSE, BasicFeatures = FALSE, JdeP = TRUE, arcs = TRUE, padding = 5){
+draw_pitch <- function(pitch_length = 105,
+                       pitch_width = 68,
+                       pitch_units = "meters",
+                       pitch_layout = "horizontal",
+                       pitch_section = "full",
+                       grass_colour = "#ffffff",
+                       line_colour = "#A9A9A9",
+                       background_colour = "#ffffff",
+                       goal_colour = "#000000",
+                       goaltype = "line",
+                       middlethird = FALSE,
+                       BasicFeatures = FALSE,
+                       overlay = FALSE,
+                       arcs = TRUE,
+                       padding = 5){
 
   ## set theme for blank pitch
   theme_blankPitch = function(size=12) {
@@ -44,13 +62,19 @@ draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_col
       plot.title=element_text(size=size*1.2),
       strip.text.y=element_text(colour=background_colour,size=size,angle=270),
       strip.text.x=element_text(size=size*1))}
+  if(pitch_section == "full"){
+      ymin <- 0 # minimum width
+      ymax <- pitch_width # maximum width
+      xmin <- 0 # minimum length
+      xmax <- pitch_length # maximum length
+  }else if (pitch_section == "att_half"){
+      ymin <- 0 # minimum width
+      ymax <- pitch_width # maximum width
+      xmin <- (pitch_length/2) # minimum length
+      xmax <- pitch_length # maximum length
+  }
 
-  ymin <- 0 # minimum width
-  ymax <- 68 # maximum width
-  xmin <- 0 # minimum length
-  xmax <- 105 # maximum length
-
-  # Defining features along the length
+  # Defining features along the length (x axis)
   boxEdgeDef <- 16.5
   boxEdgeOff <- xmax - 16.5
   halfwayline <- xmax/2
@@ -59,7 +83,7 @@ draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_col
   penSpotDef <- 11
   penSpotOff <- xmax-11
 
-  # Defining features along the width
+  # Defining features along the width (y axis)
   boxEdgeLeft <- ymax/2 - 20.15 #18
   boxEdgeRight <- ymax/2 + 20.15
   sixYardLeft <- ymax/2 - 9.16
@@ -69,7 +93,7 @@ draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_col
   CentreSpot <- ymax/2
 
   # other dimensions
-  centreCirle_d <- 20
+  centreCirle_d <- 18.3
 
   ## define the circle function
   circleFun <- function(center = c(0,0),diameter = 1, npoints = 100){
@@ -150,12 +174,22 @@ draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_col
 
   ## LINE TYPE
   if(goaltype == "line"){
-    list4 <- list(
-      # add the goal Defensive
-      geom_segment(aes(x = xmin, y = goalPostLeft, xend = xmin, yend = goalPostRight),colour = goal_colour, size = 1),
+    list4 <-
+      if(pitch_section == "full"){
+        list(
+          # add the goal Defensive
+          geom_segment(aes(x = xmin, y = goalPostLeft, xend = xmin, yend = goalPostRight),colour = goal_colour, size = 1),
+          # add the goal offensive
+          geom_segment(aes(x = xmax, y = goalPostLeft, xend = xmax, yend = goalPostRight),colour = goal_colour, size = 1)
+        )
+      }else if(pitch_section == "att_half"){
+        list(
+          # add the goal offensive
+          geom_segment(aes(x = xmax, y = goalPostLeft, xend = xmax, yend = goalPostRight),colour = goal_colour, size = 1)
+        )
+      }
       # add the goal offensive
       geom_segment(aes(x = xmax, y = goalPostLeft, xend = xmax, yend = goalPostRight),colour = goal_colour, size = 1)
-    )
   }else{}
 
   ## Barca Numbers TYPE
@@ -181,8 +215,8 @@ draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_col
   }
 
 
-  ## add J de P
-  if(JdeP == TRUE){
+  ## add overlay
+  if(overlay == "JdeP"){
     list6 <- list(
       # vertical tram lines
       geom_segment(aes(x = boxEdgeDef, y = boxEdgeLeft, xend = boxEdgeOff, yend = boxEdgeLeft), colour = "#941C07", alpha = 0.3),
@@ -200,6 +234,20 @@ draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_col
     #geom_rect(aes(xmin=xmin, xmax=boxEdgeDef, ymin=boxEdgeLeft, ymax=boxEdgeRight), fill = NA, colour = line_colour) +
     # add the 18 yard box offensive
     #geom_rect(aes(xmin=boxEdgeOff, xmax=xmax, ymin=boxEdgeLeft, ymax=boxEdgeRight), fill = NA, colour = line_colour)
+    )
+  }else if(overlay == "grid_30"){
+    list6 <- list(
+      # lines along the length
+      geom_segment(aes(x = xmin, y = (ymax/5*1), xend = xmax, yend = (ymax/5*1)), colour = "#941C07", alpha = 0.3),
+      geom_segment(aes(x = xmin, y = (ymax/5*2), xend = xmax, yend = (ymax/5*2)), colour = "#941C07", alpha = 0.3),
+      geom_segment(aes(x = xmin, y = (ymax/5*3), xend = xmax, yend = (ymax/5*3)), colour = "#941C07", alpha = 0.3),
+      geom_segment(aes(x = xmin, y = (ymax/5*4), xend = xmax, yend = (ymax/5*4)), colour = "#941C07", alpha = 0.3),
+      # lines along the width
+      geom_segment(aes(x = (xmax/6*1), y = ymin, xend = (xmax/6*1), yend = ymax), colour = "#941C07", alpha = 0.3),
+      geom_segment(aes(x = (xmax/6*2), y = ymin, xend = (xmax/6*2), yend = ymax), colour = "#941C07", alpha = 0.3),
+      geom_segment(aes(x = (xmax/6*3), y = ymin, xend = (xmax/6*3), yend = ymax), colour = "#941C07", alpha = 0.3),
+      geom_segment(aes(x = (xmax/6*4), y = ymin, xend = (xmax/6*4), yend = ymax), colour = "#941C07", alpha = 0.3),
+      geom_segment(aes(x = (xmax/6*5), y = ymin, xend = (xmax/6*5), yend = ymax), colour = "#941C07", alpha = 0.3)
     )
   }else{
     list6 <- list()
@@ -234,4 +282,4 @@ draw_pitch <- function(layout = "horizontal", grass_colour = "#ffffff", line_col
 
 }
 
-ggplot() + draw_pitch()
+ggplot() + draw_pitch(pitch_section = "att_half")
