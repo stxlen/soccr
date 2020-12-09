@@ -4,7 +4,7 @@
 #' @param pitch_width Width of the pitch. Default 68
 #' @param pitch_units Units of measure in "meters" or "yards". Default "meters"
 #' @param pitch_layout Plot the pitch vertical or horizontal. Default "horizontal"
-#' @param pitch_section Full or subsection of field. "full", "att_half". Default "full"
+#' @param pitch_section Full or subsection of field. "full", "att_half", "att_eighteen". Default "full"
 #' @param grass_colour A string as a colour by word or #HEX code
 #' @param line_colour A string as a colour by word or #HEX code
 #' @param background_colour A string as a colour by word or #HEX code
@@ -60,6 +60,8 @@ draw_pitch <- function(pitch_length = 105,
       plot.title=element_text(size=size*1.2),
       strip.text.y=element_text(colour=background_colour,size=size,angle=270),
       strip.text.x=element_text(size=size*1))}
+
+  # Define pitch section
   if(pitch_section == "full"){
     ymin <- 0 # minimum width
     ymax <- pitch_width # maximum width
@@ -69,6 +71,11 @@ draw_pitch <- function(pitch_length = 105,
     ymin <- 0 # minimum width
     ymax <- pitch_width # maximum width
     xmin <- (pitch_length/2) # minimum length
+    xmax <- pitch_length # maximum length
+  }else if (pitch_section == "att_eighteen"){
+    ymin <- 0 # minimum width
+    ymax <- pitch_width # maximum width
+    xmin <- pitch_length * 0.66 # minimum length
     xmax <- pitch_length # maximum length
   }
 
