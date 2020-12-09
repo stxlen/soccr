@@ -1,11 +1,11 @@
 Package: soccr
 Type: Package
 Title: Custom Functions For Soccer Data
-Version: 0.1.0
+Version: 0.1.1
 Author: Sean Steele
 Maintainer: The package maintainer <seansteele@mac.com>
 Description: Tools for manipulating soccer data
-License: What license is it under?
+License: What license is it under? Good question.
 Encoding: UTF-8
 LazyData: true
 Imports: 
