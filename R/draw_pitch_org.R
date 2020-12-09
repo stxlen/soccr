@@ -18,7 +18,7 @@
 #' @param padding Numeric. Default = 5
 #' @return A plot of a pitch
 #' @export
-draw_pitch <- function(pitch_length = 105,
+draw_pitch_orig <- function(pitch_length = 105,
                        pitch_width = 68,
                        pitch_units = "meters",
                        pitch_layout = "horizontal",
