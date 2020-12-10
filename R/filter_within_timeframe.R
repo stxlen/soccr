@@ -4,8 +4,12 @@
 #'
 #' @param condition The event to find in dplyr fashion. Such as event == 'A'
 #' @param time The column/data that contains the timestamp
+<<<<<<< HEAD
 #' @param lead_time The number of seconds before the event occurs
 #' @param lag_time The number of seconds after an event occurs (needs to be implemented)
+=======
+#' @param time_filter The number of seconds before the event occurs
+>>>>>>> feac73f6287e9e3fd8e55947ff6c43a8b7b907e6
 #'
 
 filter_within_timeframe <- function(.data, condition, time, lead_time = 0, lag_time = 0){
@@ -17,6 +21,9 @@ filter_within_timeframe <- function(.data, condition, time, lead_time = 0, lag_t
     filter(.,(last(!!time) - !!time) <= lead_time & (last(!!time) - !!time) >= lag_time)
   return(filtered)
 }
+<<<<<<< HEAD
 
 # Example usage
   # event_df %>% filter_within_timeframe(event == 'shot', s, 5, 0)
+=======
+>>>>>>> feac73f6287e9e3fd8e55947ff6c43a8b7b907e6
