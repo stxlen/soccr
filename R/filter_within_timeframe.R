@@ -17,3 +17,6 @@ filter_within_timeframe <- function(.data, condition, time, lead_time = 0, lag_t
     filter(.,(last(!!time) - !!time) <= lead_time & (last(!!time) - !!time) >= lag_time)
   return(filtered)
 }
+
+# Example usage
+  # event_df %>% filter_within_timeframe(event == 'shot', s, 5, 0)
