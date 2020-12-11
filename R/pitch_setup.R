@@ -21,7 +21,9 @@ pitch_setup <- function(provider, length, width){
     assign("pitch_width", width, envir = .GlobalEnv)
     assign("pitch_units", "m", envir = .GlobalEnv)
   }else{
-    warning("Current providers are InStat or StatsBomb. You may choose custom and a length and width to make your own.")
+    warning("Current providers are InStat or StatsBomb.
+            You may choose \"custom\" and provide a length and width of your own.")
   }
+  # add tryCatch to not return the values and only return the warning?
   return(list(pitch_length, pitch_width, pitch_units))
 }
