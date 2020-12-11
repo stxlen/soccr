@@ -16,9 +16,9 @@
 #' @param padding Numeric. Default = 5
 #' @return A plot of a pitch
 #' @export
-draw_pitch <- function(pitch_length = 105,
-                       pitch_width = 68,
-                       pitch_units = "meters",
+draw_pitch <- function(pitch_length = pitch_length_init,
+                       pitch_width = pitch_width_init,
+                       pitch_units = pitch_units,
                        pitch_layout = "horizontal",
                        pitch_section = "full",
                        grass_colour = "#ffffff",
@@ -343,8 +343,8 @@ draw_pitch <- function(pitch_length = 105,
 }
 
 # Example usage
-# ggplot() + draw_pitch(pitch_layout = "vertical")
 # ggplot() + draw_pitch()
+# ggplot() + draw_pitch(pitch_layout = "vertical")
 # ggplot() + draw_pitch(pitch_section = "att_half")
 # ggplot() + draw_pitch(pitch_layout = "vertical", BasicFeatures = TRUE)
 # ggplot() + draw_pitch(pitch_layout = "vertical", pitch_section = "att_half", BasicFeatures = FALSE)
