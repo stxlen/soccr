@@ -7,7 +7,8 @@
 #' @param lead_time The number of seconds before the event occurs
 #' @param lag_time The number of seconds after an event occurs (needs to be implemented)
 #' @param time_filter The number of seconds before the event occurs
-#'
+#' @return A plot of a pitch
+#' @export
 
 filter_within_timeframe <- function(.data, condition, time, lead_time = 0, lag_time = 0){
   condition <- enquo(condition)
