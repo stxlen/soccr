@@ -54,7 +54,7 @@ draw_pitch <- function(pitch_length = pitch_length_init,
       #       panel.border=element_blank(),
       panel.grid.major=element_blank(),
       panel.grid.minor=element_blank(),
-      panel.spacing=element_blank(),
+      panel.spacing = unit(0, "pt"),
       plot.background=element_blank(),
       #plot.margin=unit(c(0, 0, 0, 0), "lines"),
       plot.title=element_text(size=size*1.2),
@@ -344,7 +344,14 @@ draw_pitch <- function(pitch_length = pitch_length_init,
 
 # Example usage
 # ggplot() + draw_pitch()
-# ggplot() + draw_pitch(pitch_layout = "vertical")
-# ggplot() + draw_pitch(pitch_section = "att_half")
-# ggplot() + draw_pitch(pitch_layout = "vertical", BasicFeatures = TRUE)
-# ggplot() + draw_pitch(pitch_layout = "vertical", pitch_section = "att_half", BasicFeatures = FALSE)
+#
+# ggplot(data = df) +
+#   draw_pitch() +
+#   geom_point(aes(x=x, y=y))
+#
+# df %>%
+#   ggplot() +
+#   draw_pitch(pitch_layout = "vertical", pitch_section = "att_half") +
+#   geom_point(aes(x=pitch_width_init-y, y=x)) +
+#   facet_wrap(~event)
+
