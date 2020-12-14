@@ -65,6 +65,16 @@ create_grid <- function(pitch_length = pitch_length_init,
     summarise(geometry = st_combine(geometry)) %>%
     st_cast("POLYGON")
 
+  pitch_grid <- pitch_grid %>%
+    st_coordinates() %>%
+    as_tibble() %>%
+    filter(row_number() %% 5 != 1) %>% ## Closed polygon repeat first values. Delete every 5th row starting from 1
+    group_by(L2) %>%
+    summarise(center_x = mean(X),
+              center_y = mean(Y)) %>%
+    rename(zone_num = L2) %>%
+    left_join(pitch_grid, .)
+
   return(pitch_grid)
 }
 
