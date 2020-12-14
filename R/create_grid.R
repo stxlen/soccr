@@ -55,9 +55,15 @@ create_grid <- function(pitch_length = pitch_length_init,
     }
   }
 
-  # combine them all
+  # combine and turn into sf object
   pitch_grid <- tibble(zone_num = c(rep(1:grid_size, each = 5)),
-                       x_list, y_list)
+                       x_list, y_list) %>%
+    rename(x_coord = x_list,
+           y_coord = y_list) %>%
+    st_as_sf(coords = c("x_coord", "y_coord")) %>%
+    group_by(zone_num) %>%
+    summarise(geometry = st_combine(geometry)) %>%
+    st_cast("POLYGON")
 
   return(pitch_grid)
 }
