@@ -49,7 +49,7 @@ create_grid <- function(pitch_length = pitch_length_init,
         pos <- pos + 1
       }
       y <- y + grid_height
-      if(y == pitch_width){
+      if(y >= pitch_width - grid_height){
         y <- 0
       }else{}
     }
@@ -65,6 +65,7 @@ create_grid <- function(pitch_length = pitch_length_init,
     summarise(geometry = st_combine(geometry)) %>%
     st_cast("POLYGON")
 
+  # add center locations
   pitch_grid <- pitch_grid %>%
     st_coordinates() %>%
     as_tibble() %>%
