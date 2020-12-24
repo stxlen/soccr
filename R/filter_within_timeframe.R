@@ -30,8 +30,8 @@ filter_within_timeframe <- function(.data, condition, time, lead_time = 0, lag_t
   #filter lag events
   filtered_lag <- .data %>%
     slice(min(which(!!condition)):nrow(.)) %>% # remove rows before first occurance
-    group_by(grp =  lead(rev(cumsum(rev(!!condition))), default = 0), period) %>%
-    filter(({{time}} - first({{time}}[!!condition])) <= lag_time) %>% # something in here doesn't work !!!!!!!!!!!!!
+    group_by(grp =  lead(rev(cumsum(rev(!!condition))), default = 0)) %>%
+    filter(({{time}} - first({{time}}[!!condition])) <= lag_time & ({{time}} - first({{time}}[!!condition])) >= 0) %>%
     ungroup() %>%
     select(-grp)
   }
@@ -42,5 +42,5 @@ filter_within_timeframe <- function(.data, condition, time, lead_time = 0, lag_t
 }
 
 # Example usage
-  # event_df %>% filter_within_timeframe(event == 'shot', s, 5, 0)
+  # event_df %>% filter_within_timeframe(event == 'shot', s, 5, 5)
 
