@@ -13,11 +13,32 @@
 filter_within_timeframe <- function(.data, condition, time, lead_time = 0, lag_time = 0){
   condition <- enquo(condition)
   time <- enquo(time)
-  filtered <- .data %>%
+  filtered_lead <- c()
+  filtered_lag <- c()
+
+  if(lead_time > 0){
+  # filter lead events
+  filtered_lead <- .data %>%
     slice(., 1:max(which(!!condition))) %>%
     group_by(., grp =  lag(cumsum(!!condition), default = 0)) %>%
-    filter(.,(last(!!time) - !!time) <= lead_time & (last(!!time) - !!time) >= lag_time)
+    filter(.,(last({{time}}) - {{time}}) <= lead_time & (last({{time}}) - {{time}}) >= 0) %>%
+    ungroup() %>%
+    select(-grp)
+  }
+
+  if(lag_time > 0){
+  #filter lag events
+  filtered_lag <- .data %>%
+    slice(min(which(!!condition)):nrow(.)) %>% # remove rows before first occurance
+    group_by(grp =  lead(rev(cumsum(rev(!!condition))), default = 0), period) %>%
+    filter(({{time}} - first({{time}}[!!condition])) <= lag_time) %>% # something in here doesn't work !!!!!!!!!!!!!
+    ungroup() %>%
+    select(-grp)
+  }
+
+  filtered <- rbind(filtered_lead, filtered_lag) %>% distinct()
   return(filtered)
+
 }
 
 # Example usage
