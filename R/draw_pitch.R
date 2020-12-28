@@ -326,7 +326,27 @@ draw_pitch <- function(pitch_length = pitch_length_init,
         # # add centre spot
         geom_point(aes(x = CentreSpot , y = halfwayline), colour = line_colour)
       )}
-    list4 <- list()
+
+    ## LINE TYPE
+    if(goaltype == "line"){
+      list4 <-
+        if(pitch_section == "full"){
+          list(
+            # add the goal Defensive
+            geom_segment(aes(x = goalPostLeft, y = xmin, xend = goalPostRight, yend = xmin),colour = goal_colour, size = 1),
+            # add the goal offensive
+            geom_segment(aes(x = goalPostLeft, y = xmax, xend = goalPostRight, yend = xmax),colour = goal_colour, size = 1)
+          )
+        }else if(pitch_section == "att_half"){
+          list(
+            # add the goal offensive
+            geom_segment(aes(x = goalPostLeft, y = xmax, xend = goalPostRight, yend = xmax),colour = goal_colour, size = 1)
+          )
+        }
+      # # add the goal offensive
+      # geom_segment(aes(x = xmax, y = goalPostLeft, xend = xmax, yend = goalPostRight),colour = goal_colour, size = 1)
+    }else{}
+
     list5 <- list()
     list6 <- list()
     list7 <- list(# add d arc offensive
