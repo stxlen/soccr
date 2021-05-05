@@ -1,4 +1,5 @@
 #' Creating a pitch plot using ggplot2 that is ready to plot actions on top. Numerous options allow customisation.
+#' Original code from FCrStats SBpitch tutorial at: https://github.com/FCrSTATS/SBpitch
 #'
 #' @param pitch_length Length of the pitch. Always the long side. Default 105
 #' @param pitch_width Width of the pitch. Default 68
