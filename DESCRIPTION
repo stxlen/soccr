@@ -2,11 +2,13 @@ Package: soccr
 Type: Package
 Title: Custom Functions For Soccer Data
 Version: 0.1.3
-Author: Sean Steele
-Maintainer: The package maintainer <seansteele@mac.com>
+Authors@R: 
+    person("Sean", "Steele", , "seansteele@mac.com", role = c("aut", "cre"))
 Description: Tools for manipulating soccer data
-License: What license is it under? Good question.
+License: MIT + file LICENSE
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
 LazyData: true
 Imports: 
     dplyr,
