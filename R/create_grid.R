@@ -1,9 +1,12 @@
-#' Split a field into equal parts
+#' Split a soccer pitch into user defined zones
 #'
 #' @param n_columns Number of columns
 #' @param n_rows Number of rows
 #' @return A tibble with zone definitions
 #' @export
+#'
+#' @examples
+#' my_grid <- create_grid(120, 75, 5, 6)
 
 create_grid <- function(pitch_length = pitch_length_init,
                         pitch_width = pitch_width_init,
@@ -57,27 +60,26 @@ create_grid <- function(pitch_length = pitch_length_init,
 
   # combine and turn into sf object
   pitch_grid <- tibble(zone_num = c(rep(1:grid_size, each = 5)),
-                       x_list, y_list) %>%
+                       x_list, y_list) |>
     rename(x_coord = x_list,
-           y_coord = y_list) %>%
-    st_as_sf(coords = c("x_coord", "y_coord")) %>%
-    group_by(zone_num) %>%
-    summarise(geometry = st_combine(geometry)) %>%
-    st_cast("POLYGON")
+           y_coord = y_list) |>
+    sf::st_as_sf(coords = c("x_coord", "y_coord")) |>
+    group_by(zone_num) |>
+    dplyr::summarise(geometry = sf::st_combine(geometry)) |>
+    sf::st_cast("POLYGON")
 
   # add center locations
-  pitch_grid <- pitch_grid %>%
-    st_coordinates() %>%
-    as_tibble() %>%
-    filter(row_number() %% 5 != 1) %>% ## Closed polygon repeat first values. Delete every 5th row starting from 1
-    group_by(L2) %>%
-    summarise(center_x = mean(X),
-              center_y = mean(Y)) %>%
-    rename(zone_num = L2) %>%
+  pitch_grid <- pitch_grid |>
+    st_coordinates() |>
+    as_tibble() |>
+    filter(row_number() %% 5 != 1) |> ## Closed polygon repeat first values. Delete every 5th row starting from 1
+    group_by(L2) |>
+    dplyr::summarise(center_x = mean(X),
+              center_y = mean(Y)) |>
+    rename(zone_num = L2) |>
     left_join(pitch_grid, .)
 
   return(pitch_grid)
 }
 
-# Example usage
-# my_grid <- create_grid(120, 75, 5, 6)
+
