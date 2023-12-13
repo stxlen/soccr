@@ -1,4 +1,4 @@
-#' Per 90 Converstion
+#' Per 90 Conversion
 #'
 #' This function converts a raw stat to a per 90 metric
 #'
