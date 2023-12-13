@@ -13,4 +13,5 @@ LazyData: true
 Depends: ggplot2
 Imports: 
     dplyr,
+    ggtext,
     sf
