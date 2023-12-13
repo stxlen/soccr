@@ -16,12 +16,16 @@ pitch_setup <- function(provider, length, width){
     assign("pitch_length_init", 120, envir = .GlobalEnv)
     assign("pitch_width_init", 80, envir = .GlobalEnv)
     assign("pitch_units_init", "m", envir = .GlobalEnv)
+  }else if(tolower(provider) == "wyscout"){
+    assign("pitch_length_init", 120, envir = .GlobalEnv)
+    assign("pitch_width_init", 80, envir = .GlobalEnv)
+    assign("pitch_units_init", "yd", envir = .GlobalEnv)
   }else if(tolower(provider) == "custom"){
     assign("pitch_length_init", length, envir = .GlobalEnv)
     assign("pitch_width_init", width, envir = .GlobalEnv)
     assign("pitch_units_init", "m", envir = .GlobalEnv)
   }else{
-    warning("Current providers are InStat or StatsBomb.
+    warning("Current providers are InStat, Wyscout or StatsBomb.
             You may choose \"custom\" and provide a length and width of your own.")
   }
   # add tryCatch to not return the values and only return the warning?
