@@ -1,17 +1,17 @@
 #' Plots
 #'
-#' @param df A dataframe created with xg_win_prob()
+#' @param xg_win_prob_df A dataframe created with xg_win_prob()
 #'
 #' @return
 #' @export
 #'
 #' @examples
-plot_win_prob <- function(df){
+plot_win_prob <- function(xg_win_prob_df){
 
   # Set colors for winning/losing teams
-  if(abs(round(df[[1]]$prob[1] - df[[1]]$prob[3], 2)) <= 0.05){
+  if(abs(round(xg_win_prob_df[[1]]$prob[1] - xg_win_prob_df[[1]]$prob[3], 2)) <= 0.05){
     plot_colors <- c("black", "grey", "black")
-  }else if(df[[1]]$prob[1] > df[[1]]$prob[3]){
+  }else if(xg_win_prob_df[[1]]$prob[1] > xg_win_prob_df[[1]]$prob[3]){
     plot_colors <- c("darkred", "grey", "darkgreen")
   }else{
     plot_colors <- c("darkgreen", "grey", "darkred")
@@ -23,7 +23,7 @@ plot_win_prob <- function(df){
   suppressWarnings({
 
   # Plot
-  ggplot2::ggplot(data = df[[1]],
+  ggplot2::ggplot(data = xg_win_prob_df[[1]],
                   mapping = aes(x = prob, y = "dummy",
                                 fill = factor(winner, levels = c("team_b", "draw", "team_a")) # Order the fill reversed
   )) +
@@ -39,9 +39,9 @@ plot_win_prob <- function(df){
     ) +
     scale_x_continuous(
       breaks = c(0, .5, 1),
-      labels = c(glue::glue("<span style='color:{plot_colors[3]}'>{df[[3]][1]}</span>"),
+      labels = c(glue::glue("<span style='color:{plot_colors[3]}'>{xg_win_prob_df[[3]][1]}</span>"),
                  "Draw",
-                 glue::glue("<span style='color:{plot_colors[1]}'>{df[[3]][2]}</span>")),
+                 glue::glue("<span style='color:{plot_colors[1]}'>{xg_win_prob_df[[3]][2]}</span>")),
       expand = c(0, 0),
       limits = c(0, 1),
       position = "top"
