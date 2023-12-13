@@ -16,8 +16,6 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
                         team_a_name = "team_a", team_b_name = "team_b",
                         n_sim = 10000, seed = 123){
 
-  require(dplyr)
-
   # Set a seed to reproduce results
   if (!missing(seed)) {
     set.seed(seed)
