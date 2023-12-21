@@ -15,3 +15,7 @@ Imports:
     dplyr,
     ggtext,
     sf
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
