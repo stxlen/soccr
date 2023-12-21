@@ -17,7 +17,16 @@ plot_win_prob <- function(xg_win_prob_df){
     plot_colors <- c("darkgreen", "grey", "darkred")
   }
 
-  # Quites the following warning:
+  # Calculate center of draw bar
+  # To Do: Use repel to move away from teams at the edges. Right now sets a limit how far toward edge can move
+  if(xg_win_prob_df[[1]]$prob[1] < 0.15){
+  draw_center <- 0.15
+  } else if (xg_win_prob_df[[1]]$prob[1] + xg_win_prob_df[[1]]$prob[2] > 0.85){
+    draw_center <- 0.85
+  } else {draw_center <- xg_win_prob_df[[1]]$prob[1] + (xg_win_prob_df[[1]]$prob[3] / 2 ) }
+
+
+  # Quiets the following warning:
   # Vectorized input to `element_text()` is not officially supported.
   # ℹ Results may be unexpected or may change in future versions of ggplot2.
   suppressWarnings({
@@ -25,7 +34,7 @@ plot_win_prob <- function(xg_win_prob_df){
   # Plot
   ggplot2::ggplot(data = xg_win_prob_df[[1]],
                   mapping = aes(x = prob, y = "dummy",
-                                fill = factor(winner, levels = c("team_b", "draw", "team_a")) # Order the fill reversed
+                                fill = factor(label, levels = c("team_b", "draw", "team_a")) # Order the fill reversed
   )) +
     scale_y_discrete(expand = c(0, 0, 0, 0), guide = "none") +
     geom_col(
@@ -35,13 +44,14 @@ plot_win_prob <- function(xg_win_prob_df){
     geom_text(
       aes(label = paste0(round(prob * 100, 0), "%")
       ),
-      position = position_stack(vjust = 0.5)
+      position = position_stack(vjust = 0.5),
+      size = 11/.pt # Percent text size
     ) +
     scale_x_continuous(
-      breaks = c(0, .5, 1),
-      labels = c(glue::glue("<span style='color:{plot_colors[3]}'>{xg_win_prob_df[[3]][1]}</span>"),
+      breaks = c(0, draw_center, 1),
+      labels = c(glue::glue("<span style='color:{plot_colors[3]}'>{xg_win_prob_df[[1]][1,4]}</span>"),
                  "Draw",
-                 glue::glue("<span style='color:{plot_colors[1]}'>{xg_win_prob_df[[3]][2]}</span>")),
+                 glue::glue("<span style='color:{plot_colors[1]}'>{xg_win_prob_df[[1]][2,4]}</span>")),
       expand = c(0, 0),
       limits = c(0, 1),
       position = "top"
@@ -50,11 +60,11 @@ plot_win_prob <- function(xg_win_prob_df){
     coord_cartesian(clip = "off") +
     theme(
       legend.position = "none",
-      axis.text.x = element_text(hjust = c(0, .5, 1), size = 28),
+      axis.text.x = element_text(hjust = c(0, 0.5, 1), size = 12), # Team text pos/size
       axis.ticks.x = element_blank(),
       panel.background = element_blank(),
-      plot.title = element_text(size = 40, margin = margin(0, 0, 0, 0)),
-      plot.subtitle = element_text(size = 16, margin = margin(0, 0, 10, 0)),
+      plot.title = element_text(size = 14, margin = margin(0, 0, 0, 0)), # Title size
+      plot.subtitle = element_text(size = 11, margin = margin(0, 0, 10, 0)), # Subtitle size
       axis.text.x.top  = ggtext::element_markdown()
     ) +
     labs(
