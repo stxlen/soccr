@@ -2,7 +2,7 @@
 % Please edit documentation in R/per_90.R
 \name{per_90}
 \alias{per_90}
-\title{Per 90 Converstion}
+\title{Per 90 Conversion}
 \usage{
 per_90(stat, minutes_played)
 }
