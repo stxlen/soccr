@@ -1,0 +1,111 @@
+---
+title: "xg_simulations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{xg_simulations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Functions that start with 'xg_sim_' all revolve around using xg to simulate matches. They are built upon each other. 
+
+## xg_sim_goal()
+The primary function `xg_sim_goal()`, takes an xG, picks a random number and if it is less than the supplied xG, then a goal is scored. The function returns either `1` if a goal is score or `0` if no goal is scored.
+
+```{r setup, message = FALSE}
+library(soccr)
+library(tidyverse)
+library(devtools)
+library(gt)
+load_all()
+set.seed(123)
+```
+
+```{r}
+xg_sim_goal(0.1)
+```
+
+ A list of xG can be passed to `xg_sim_goal()` and it will return the total number of goals scored.
+
+```{r}
+xg_sim_goal(c(0.1, 0.1, 0.3, 0.25, 0.1, 0.4, 0.25, 0.1, 0.1, 0.1, 0.4))
+```
+
+## xg_sim_match()
+Building on `xg_sim_goal()`, `xg_sim_match()` takes two lists of xG and returns a list of the number of goals scored by each team.
+
+```{r}
+
+shot_df <- tibble(team_shots_xg = list(round(rnorm(sample(6:14, 1), 0.1, 0.05),2)), # Random dist that looks more
+                  opp_shots_xg = list(round(rnorm(sample(6:14, 1), 0.1, 0.05),2)))  # like a real match
+
+xg_sim_match(shot_df$team_shots_xg, shot_df$opp_shots_xg)
+
+```
+
+In the simulation, Team A scored 1 goal and Team B scored 0 goals
+
+## xg_win_prob()
+Simulating a single match once is not very usefule. Using `xg_win_prob()` we can simulate a match 10,000 times (or as many/few times as we want) and get the probability of each team winning. Points give either 3 pts for a win or 1 pt for a draw - to which ever result is most likely. While `points_share` splits the three points between the two teams based on the likely hood of a win, loss or draw for each team.
+
+```{r}
+result_prob <- xg_win_prob(shot_df$team_shots_xg, shot_df$opp_shots_xg,
+                           "Team A", "Team B",
+                           n = 10000)
+
+result_prob[[1]]
+
+result_prob[[2]] |> filter(prob > 0.01) #Show only scorelines with a probability greater than 1%
+
+```
+
+This produces two lists. The first list gives the probability of each team winning or drawing, and provides 3 pts for the team most likely to win. The second list gives the probability of each score line.
+
+## Plotting
+As a side, I have created two functions that take `xg_win_prob()` output and produce cleaner looking visualizations.
+
+```{r fig1, fig.height = 1, fig.width = 7, fig.align = "center"}
+plot_win_prob(result_prob)
+```
+
+```{r fig2, fig.height = 6, fig.width = 7, fig.align = "left"}
+plot_score_prob(result_prob)
+```
+
+These two visualizations are not labeled with `xg_` as one could use them with a predictive model to forecast outcomes. One would need to change the title though...
+
+## xg_sim_season()
+
+Finally, we can simulate an entire season worth of games and have a final xG table. There are two methods. You can use `points_method = "points"` to give 3 pts for a win and 1 pt for a draw, based on the most likely scenarior. Or `points_method = "share"` to split the three points between the two teams based on the likely hood of a win, loss or draw for each team.
+
+```{r}
+set.seed(123)
+# Create data simulating a season of 4 teams playing each team twice
+teams <- tibble(team = c("Team A", "Team B", "Team C", "Team D"), 
+                opponent = c("Team A", "Team B", "Team C", "Team D"))
+
+season_data <- teams |>
+  expand(team, opponent) |>
+  filter(team != opponent) |>
+  mutate(match_id = row_number()) |>
+  rowwise() |>
+  # Make B a little better than the rest and C a little worse
+  mutate(team_shots_xg = case_when(team == "Team B" ~list(abs(round(rnorm(sample(10:18, 1), 0.15, 0.08), 2))),
+                                   team == "Team C" ~list(abs(round(rnorm(sample(6:12, 1), 0.1, 0.05), 2))),
+                                   .default = list(abs(round(rnorm(sample(8:16, 1), 0.1, 0.05), 2)))),
+         opp_shots_xg = case_when(opponent == "Team B" ~list(abs(round(rnorm(sample(10:18, 1), 0.15, 0.08), 2))),
+                                  opponent == "Team C" ~list(abs(round(rnorm(sample(6:12, 1), 0.1, 0.05), 2))),
+                                  .default = list(abs(round(rnorm(sample(8:16, 1), 0.1, 0.05), 2))))) |>
+  ungroup()
+
+xg_sim_season_pts(season_data, points_method  = "share") |>
+  gt()
+
+```
