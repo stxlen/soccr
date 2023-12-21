@@ -45,8 +45,12 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
 
   # Set a seed to reproduce results
   if (!missing(seed)) {
-    set.seed(seed)
+    set.seed(123)
   }
+
+  # Unlist shots
+  team_a_shots_xg <- unlist(team_a_shots_xg)
+  team_b_shots_xg <- unlist(team_b_shots_xg)
 
   # Initialize empty lists
   team_a_goals <- list()
@@ -55,7 +59,7 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
   # Run the simulation n times
   for (i in 1:n_sim) {
     # Get simulated goals for each team
-    simulated_goals <- xg_simulate_match(team_a_shots_xg, team_b_shots_xg)
+    simulated_goals <- xg_sim_match(team_a_shots_xg, team_b_shots_xg)
 
     # Store team-specific goals in separate lists
     team_a_goals[[i]] <- simulated_goals[[1]]
@@ -85,9 +89,11 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
       label == "team_b" ~ 2,
       TRUE ~ 3
     )) |>
-    mutate(prob = n / sum(n),
-          team_name = c(team_a_name, team_b_name, NA)
-          )
+    # mutate(prob = n / sum(n),
+    #       team_name = c(team_a_name, team_b_name, NA)
+    #       )
+    mutate(prob = n / sum(n)) |>
+    add_column(team_name = c(team_a_name, team_b_name, NA))
 
   # Calculate points based on probabilities
   if(win_prob$prob[3] == max(win_prob$prob)){
@@ -97,6 +103,11 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
   } else {
     win_prob$points <- c(0,3,NA)
   }
+
+  # Calculate share of points based on probabilities
+  win_prob$points_share[1] <- round((win_prob$prob[1] + (win_prob$prob[3] / 2)) * 3, 2)
+  win_prob$points_share[2] <- round((win_prob$prob[2] + (win_prob$prob[3] / 2)) * 3, 2)
+  win_prob$points_share[3] <- NA
 
 
   # 2 As the probability for each result
