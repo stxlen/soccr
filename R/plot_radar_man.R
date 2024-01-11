@@ -9,7 +9,7 @@
 #' @param pos_group The position group to use for the average line text. Not required
 
 #'
-#' @return
+#' @return A ggplot object
 #' @export
 #'
 #' @examples
