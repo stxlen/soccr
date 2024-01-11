@@ -65,6 +65,10 @@ plot_radar_man <- function(df, title, subtitle = "", caption = "", pos_group = "
     distinct(category, color) |>
     tibble::deframe()
 
+  legend_map <-  player_data |>
+    distinct(category) |>
+    tibble::deframe()
+
   ggplot(player_data, aes(statistic, percentile)) +
     geom_bar(aes(y = 100, fill = category), stat = "identity", width = 1, color = fill_b,
              alpha = 0.1, show.legend = FALSE) +
@@ -73,7 +77,7 @@ plot_radar_man <- function(df, title, subtitle = "", caption = "", pos_group = "
     geom_hline(yintercept = 25, color = colorLine, linetype = "dashed", alpha = 0.8) +
     geom_hline(yintercept = 50, color = colorLine, linetype = "dashed", alpha = 0.8) +
     geom_hline(yintercept = 75, color = colorLine, linetype = "dashed", alpha = 0.8) +
-    scale_fill_manual(values = colors_map) +
+    scale_fill_manual(values = colors_map, breaks = legend_map) +
     geom_label(aes(y = 90, label = value, fill = category), size = 3, color = fill_b, show.legend = FALSE) +
     geom_text(x = 0.5, y = 50, label = paste0("Avg ", pos_group), vjust = -0.5, alpha = 0.05, size = 3) +  # Place text at the first bar
     scale_y_continuous(limits = c(-20, 100)) +
