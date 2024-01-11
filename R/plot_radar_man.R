@@ -4,7 +4,7 @@
 #'
 #' @param df A data frame with six columns: player, statistic, value, percentile, category and color. `percentile` is expected to be a number between 0 and 99.
 #' @param title Text to appear as the title
-#' @param subtitle Text to appear in the subtile. Use paste(..., sep = "\n") to create multiple lines.
+#' @param subtitle Text to appear in the subtile.
 #' @param caption Text to appear in the caption (bottom)
 #' @param theme_color The theme color to use: light or dark. Default is light.
 #' @param pos_group The position group to use for the average line text. Not required
@@ -85,6 +85,9 @@ plot_radar_man <- function(df, title, subtitle = "", caption = "", pos_group = "
     theme(plot.background = element_rect(fill = fill_b, color = color_b),
           panel.background = element_rect(fill = fill_b, color = color_b),
           legend.position = "bottom",
+          legend.text = element_text(size = 9, color = colorText),
+          legend.key.size = unit(0.5, "cm"),
+          legend.spacing.x = unit(1, "mm"),  # Adjust spacing as needed
           axis.title.y = element_blank(),
           axis.title.x = element_blank(),
           axis.text.y = element_blank(),
@@ -95,7 +98,6 @@ plot_radar_man <- function(df, title, subtitle = "", caption = "", pos_group = "
           plot.caption = element_text(hjust = 0.5, size = 9, color = colorText),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) +
-    # scale_x_discrete(labels = function(x) text_wrap(x = x))
     scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 1))
 
 }
