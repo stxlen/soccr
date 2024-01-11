@@ -28,7 +28,7 @@
 #'                     title = scaled_data$player[1],
 #'                     subtitle = paste("All Matches for 2023 | Compared to FWDs","All Data per 90", sep = "\n"),
 #'                     caption = "Data: FBref.com | By: Sean Steele",
-#'                     pos_group = "DM",
+#'                     pos_group = "FW/AM",
 #'                     theme_color = "light")
 #' p
 
