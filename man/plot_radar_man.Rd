@@ -22,6 +22,8 @@ plot_radar_man(
 
 \item{subtitle}{Text to appear in the subtile. Use paste(..., sep = "\n") to create multiple lines.}
 
+\item{caption}{Text to appear in the caption (bottom)}
+
 \item{pos_group}{The position group to use for the average line text. Not required}
 
 \item{theme_color}{The theme color to use: light or dark. Default is light.}
@@ -35,18 +37,21 @@ following columns named exactly as shown: player, statistic, value, percentile, 
 follow the order of the data frame.
 }
 \examples{
-scaled_data <- data.frame(player = rep("Player 1", 12),
-                          statistic = c("Stat 1", "Stat 2", "Stat 3", "Stat 4", "Stat 5", "Stat 6",
-                                        "Stat 7", "Stat 8", "Stat 9", "Stat 10", "Stat 11", "Stat 12"),
-                          value = c(12, 4, 9, 10, 5, 23, 15, 9, 3, 8, .79, 3),
-                          percentile = c(60, 60, 70, 70, 90, 80, 40, 30, 50, 90, 99, 80),
-                          category = rep(c("Attack", "Possession", "Defending", "Set Pieces"), each = 3),
+scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
+                          statistic = c("Non-Penalty Goals", "Assists", "Shot-Creating Actions",
+                          "Pass Completion Perc", "Progressive Passes", "Progressive Carries",
+                          "Tackles", "Interceptions", "Aerials Won",
+                          "Fouls Drawn","Fouls Committed", "Offsides"),
+                          value = c(.69, 0.1, 6.2, 80, 8.1, 2.0, 0.8, 0.4, 0.8, 0.8, 0.7, 0.7),
+                          percentile = c(85, 48, 99, 99, 99, 70, 42, 85, 21, 42, 73, 61),
+                          category = rep(c("Attack", "Possession", "Defending", "Misc"), each = 3),
                           color = rep(c("#008000", "#0000FF", "#FF0000", "#FFA500") ,each = 3))
 
 p <- plot_radar_man(scaled_data,
-                    title = "Player A",
-                    subtitle = paste("This Season | Compared to DMs","All Data per 90", sep = "\n"),
-                    pos_group = "DM",
-                    theme_color = "dark")
+                    title = scaled_data$player[1],
+                    subtitle = paste("All Matches for 2023 | Compared to FWDs","All Data per 90", sep = "\n"),
+                    caption = "Data: FBref.com | By: Sean Steele",
+                    pos_group = "FW/AM",
+                    theme_color = "light")
 p
 }
