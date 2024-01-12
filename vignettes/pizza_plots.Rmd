@@ -1,0 +1,68 @@
+---
+title: "Pizza Plots"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pizza_plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(soccr)
+library(tidyverse)
+library(devtools)
+library(gt)
+load_all()
+```
+
+The function `plot_rada_man` is meant to be a simple way to create pizza plots give a simple data frame. It currently requires the following columns: statistic, value, percentile, category, and color. The plot will follow the order of the rows in the data frame.
+
+```{r data}
+
+scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
+                          statistic = c("Non-Penalty Goals", "Assists", "Shot-Creating Actions",
+                          "Pass Completion Perc", "Progressive Passes", "Progressive Carries",
+                          "Tackles", "Interceptions", "Aerials Won",
+                          "Fouls Drawn","Fouls Committed", "Offsides"),
+                          value = c(.69, 0.1, 6.2, 80, 8.1, 2.0, 0.8, 0.4, 0.8, 0.8, 0.7, 0.7),
+                          percentile = c(85, 48, 99, 99, 99, 70, 42, 85, 21, 42, 73, 61),
+                          category = rep(c("Attack", "Possession", "Defending", "Misc"), each = 3),
+                          color = rep(c("#008000", "#0000FF", "#FF0000", "#FFA500") ,each = 3))
+
+```
+
+```{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}
+p <- plot_radar_man(scaled_data,
+                    title = scaled_data$player[1],
+                    subtitle = paste("All Matches for 2023 | Compared to FW/AM","All Data per 90", sep = "\n"),
+                    caption = "Data: FBref.com | By: Sean Steele",
+                    pos_group = "FW/AM",
+                    theme_color = "light")
+p
+
+```
+
+Depending on your output, you may need to adjust the size of the plot. For instance, I set my rmarkdown output to `{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}`, but you can see that the plot tends to get squished. It is recommended to use the `ggsave` function to save the plot to a file. 
+
+```{r save}
+ggsave("putellas.png", p, width = 3000, height =2800, units = "px")
+```
+
+Thomas Mock provides a clean way of add an image/logo to a plot. I have included it here with `plot_add_logo`.
+
+```{r add-logo, out.width = "100%", fig.align = "center"}
+
+logo <-"https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/142px-FC_Barcelona_%28crest%29.svg.png?20120407190948"
+
+plot <- "putellas.png"
+
+plot_add_logo(plot, logo, logo_position = "top right", logo_scale = 12, logo_padding = 0.01)
+
+```
