@@ -22,10 +22,9 @@ library(gt)
 load_all()
 ```
 
-The function `plot_rada_man` is meant to be a simple way to create pizza plots give a simple data frame. It currently requires the following columns: statistic, value, percentile, category, and color. The plot will follow the order of the rows in the data frame.
+The function `plot_radar_man` is meant to be a simple way to create pizza plots given a simple data frame. It currently requires the data frame to have columns named specifically as such: `statistic`, `value`, `percentile`, `category`, and `color.` The plot will follow the order of the rows in the data frame.
 
 ```{r data}
-
 scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
                           statistic = c("Non-Penalty Goals", "Assists", "Shot-Creating Actions",
                           "Pass Completion Perc", "Progressive Passes", "Progressive Carries",
@@ -36,33 +35,53 @@ scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
                           category = rep(c("Attack", "Possession", "Defending", "Misc"), each = 3),
                           color = rep(c("#008000", "#0000FF", "#FF0000", "#FFA500") ,each = 3))
 
+scaled_data |> gt()
 ```
 
 ```{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}
 p <- plot_radar_man(scaled_data,
                     title = scaled_data$player[1],
-                    subtitle = paste("All Matches for 2023 | Compared to FW/AM","All Data per 90", sep = "\n"),
+                    subtitle = paste("All Matches for 2023 | Compared to FW/AM",
+                                     "All Data per 90",
+                                     sep = "\n"),
                     caption = "Data: FBref.com | By: Sean Steele",
                     pos_group = "FW/AM",
-                    theme_color = "light")
+                    theme_color = "light",
+                    title_loc = "left")
 p
-
 ```
 
-Depending on your output, you may need to adjust the size of the plot. For instance, I set my rmarkdown output to `{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}`, but you can see that the plot tends to get squished. It is recommended to use the `ggsave` function to save the plot to a file. 
+Depending on your output, you may need to adjust the size of the plot. For instance, I set my rmarkdown chunk to `{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}`, but you can see that the plot tends to get squished. It is recommended to use the `ggsave` function to save the plot to a file. 
 
 ```{r save}
 ggsave("putellas.png", p, width = 3000, height =2800, units = "px")
 ```
 
+Once you have save your image, I have found that the code chunk `{r plot, out.width = "100%", fig.align = "center"}` renders the image nicely for html output via quarto or rmarkdown (utilized in the below plots).
+
 Thomas Mock provides a clean way of add an image/logo to a plot. I have included it here with `plot_add_logo`.
 
 ```{r add-logo, out.width = "100%", fig.align = "center"}
-
 logo <-"https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/142px-FC_Barcelona_%28crest%29.svg.png?20120407190948"
 
 plot <- "putellas.png"
 
 plot_add_logo(plot, logo, logo_position = "top right", logo_scale = 12, logo_padding = 0.01)
 
+```
+
+`logo` can be either a html link or a local file.
+
+My pizza plot function has been updated to allow the quick creation of a pizza plot with a logo. The logo will be placed in the top right corner by default. Use the above code if you want more control over the placement.
+
+```{r plot-logo, out.width = "100%", fig.align = "center"}
+plot_radar_man(scaled_data,
+               title = scaled_data$player[1],
+               subtitle = paste("All Matches for 2023 | Compared to FWDs",
+                                "All Data per 90", 
+                                sep = "\n"),
+               caption = "Data: FBref.com | By: Sean Steele",
+               pos_group = "FW/AM",
+               theme_color = "light",
+               logo_path = "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/142px-FC_Barcelona_%28crest%29.svg.png?20120407190948")
 ```
