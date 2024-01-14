@@ -35,7 +35,7 @@ scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
                           category = rep(c("Attack", "Possession", "Defending", "Misc"), each = 3),
                           color = rep(c("#008000", "#0000FF", "#FF0000", "#FFA500") ,each = 3))
 
-scaled_data |> gt()
+scaled_data
 ```
 
 ```{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}
@@ -51,13 +51,31 @@ p <- plot_radar_man(scaled_data,
 p
 ```
 
-Depending on your output, you may need to adjust the size of the plot. For instance, I set my rmarkdown chunk to `{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}`, but you can see that the plot tends to get squished. It is recommended to use the `ggsave` function to save the plot to a file. 
+Depending on your output, you may need to adjust the size of the plot. For instance, I set my rmarkdown chunk to `{r plot, fig.width = 6, fig.height = 6, fig.align = "center"}`, but you can see that the plot tends to get squished. In quarto, I have found the following settings render the plot nicely:
+
+````markdown
+---
+format:
+  html:
+    page-layout: full
+---
+
+`r ''````{r plot}
+#| fig.width: 10
+#| fig.height: 10
+#| fig.align: "center"
+
+plot_radar_man(...)
+```
+````
+
+Alternatively, you can save the plot as a png and then render it in your document.
 
 ```{r save}
-ggsave("putellas.png", p, width = 3000, height =2800, units = "px")
+ggsave("putellas.png", p, width = 2700, height = 3000, units = "px")
 ```
 
-Once you have save your image, I have found that the code chunk `{r plot, out.width = "100%", fig.align = "center"}` renders the image nicely for html output via quarto or rmarkdown (utilized in the below plots).
+Once you have save your image, I have found that the code chunk `{r plot, out.width = "100%", fig.align = "center"}` renders the image nicely for html output via quarto or rmarkdown (utilized in the below plots). You can play with the width and height settings to add more padding or bring the image closer to the text. Because the text categories are not always the same length, and dynamically created, you may need to adjust the width of the plot to get the text to fit nicely.
 
 Thomas Mock provides a clean way of add an image/logo to a plot. I have included it here with `plot_add_logo`.
 
