@@ -10,7 +10,7 @@
 #' @param pos_group The position group to use for the average line text. Not required.
 #' @param logo_path The path to the logo to use. Not required.
 #' @param title_loc The location of the title: left, center, or right. Default is left.
-#'
+#'=
 #' @return A ggplot object
 #' @export
 #'
@@ -123,14 +123,15 @@ plot_radar_man <- function(df, title, subtitle = "", caption = "", pos_group = "
 
   # RETURN WITH OR WITHOUT A LOGO ###########################################################################
 
+  test_grob <- TRUE
+
   if (logo_path == "") {
 
     return(p)
 
   } else {
-
     temp_plot <- tempfile("plot", fileext = ".png")
-    ggsave(temp_plot, p, width = 3000, height =2800, units = "px")
+    ggsave(temp_plot, p, width = 2700, height =3000, units = "px")
     plot_add_logo(temp_plot, logo_path, logo_position = "top right", logo_scale = 12, logo_padding = 0.01)
   }
 
