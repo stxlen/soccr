@@ -5,7 +5,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 plot_win_prob <- function(xg_win_prob_df){
 
   # Set colors for winning/losing teams
