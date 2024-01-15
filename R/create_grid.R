@@ -8,7 +8,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' my_grid <- create_grid(120, 75, 5, 6)
+#' }
 
 create_grid <- function(pitch_length = pitch_length_init,
                         pitch_width = pitch_width_init,
