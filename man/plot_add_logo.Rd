@@ -13,7 +13,15 @@ plot_add_logo(
 )
 }
 \arguments{
-\item{logo_padding}{}
+\item{plot_path}{Location of plot image to add logo to}
+
+\item{logo_path}{Location of logo image to add to plot}
+
+\item{logo_position}{Position of logo on plot. Options are "top right", "top left", "bottom right", "bottom left"}
+
+\item{logo_scale}{Scale of logo relative to plot width. Default is 10\% of plot width}
+
+\item{logo_padding}{Padding between logo and plot edge. Default is 1\% of plot width}
 }
 \value{
 A

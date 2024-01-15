@@ -6,12 +6,14 @@
 #' @export
 #'
 #' @examples
+#' #' \dontrun{
 #' set.seed(123)
 #' # Create a data frame of shots
 #' shots <- data.frame(shot = seq(1:10), xG = runif(n = 10, max = 1))
 #'
 #' # Simulate the number of goals scored
 #' shots |> pull(xG) |> xg_sim_goal()
+#' }
 #'
 xg_sim_goal <- function(shot_xg_list){
   #Start goal count at 0

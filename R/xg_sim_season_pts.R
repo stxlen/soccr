@@ -12,6 +12,7 @@
 #' @export
 #'
 #' @examples
+#' #' \dontrun{
 #' # Create data simulating a season of 4 teams playing each team once
 #' set.seed(123)
 #'
@@ -34,6 +35,7 @@
 #' ##2 Team A         8       6     2
 #' ##3 Team B         7       6     3
 #' ##4 Team C         6       6     4
+#' }
 xg_sim_season_pts <- function(df, team = team,
                               opponent = opponent,
                               team_xg_list = team_xg_list,

@@ -7,7 +7,7 @@
 xg_sim_goal(shot_xg_list)
 }
 \arguments{
-\item{shot_xg_list}{}
+\item{shot_xg_list}{List of shot xG values}
 }
 \value{
 The simulated number of goals scored

@@ -6,7 +6,7 @@
 #' @param logo_scale Scale of logo relative to plot width. Default is 10% of plot width
 #' @param logo_padding Padding between logo and plot edge. Default is 1% of plot width
 #'
-#' @return A
+#' @return An image file
 #' @export
 plot_add_logo <- function(plot_path, logo_path, logo_position, logo_scale = 10, logo_padding = 0.01){
 

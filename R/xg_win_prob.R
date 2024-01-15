@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' #'\dontrun{
+#' \dontrun{
 #' df <- tibble(home_shot_xg = list(c(0.06, 0.03, 0.03, 0.02, 0.07, 0.26, 0.09, 0.08, 0.05, 0.02, 0.06, 0.22, 0.10, 0.06, 0.3, 0.24, 0.05, 0.06, 0.04, 0.21)),
 #'              away_shot_xg = list(c(0.06, 0.03, 0.04, 0.06)),
 #'              team_home = "BYU",
@@ -23,14 +23,14 @@
 #'                       team_b_name = team_away,
 #'                       n_sim = 10000)
 #'
-#' #The first dataframe contains probabilities for each result
+#' #The first data frame contains probabilities for each result
 #' sim_df[[1]]
 #' ## label    n   prob team_name points
 #' ## 1 team_a 8487 0.8487       BYU      3
 #' ## 2 team_b  213 0.0213  Stanford      0
 #' ## 3   draw 1300 0.1300      <NA>     NA
 #'
-#' The second dataframe contains the probabilites for every score combination - arranged by probability
+#' The second data frame contains the probabilities for every score combination - arranged by probability
 #' head(sim_df[[2]])
 #' ## team_a_goals team_b_goals    n   prob
 #' ## 1            2            0 2378 0.2378

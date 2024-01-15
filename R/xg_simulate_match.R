@@ -6,7 +6,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 xg_sim_match <- function(team_a_shots_xg, team_b_shots_xg){
 
   # Simulate goals for each team

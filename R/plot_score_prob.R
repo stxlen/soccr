@@ -5,8 +5,6 @@
 #' @return
 #' @export
 #'
-#' @examples
-
 plot_score_prob <- function(xg_win_prob_df){
 
   custom_breaks <- function(e, num = 10){

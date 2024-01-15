@@ -27,5 +27,7 @@ A tibble with zone definitions
 Split a soccer pitch into user defined zones
 }
 \examples{
+\dontrun{
 my_grid <- create_grid(120, 75, 5, 6)
+}
 }

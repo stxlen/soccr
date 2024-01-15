@@ -15,6 +15,7 @@
 #' @export
 #'
 #' @examples
+#' #' \dontrun{
 #' scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
 #'                           statistic = c("Non-Penalty Goals", "Assists", "Shot-Creating Actions",
 #'                           "Pass Completion Perc", "Progressive Passes", "Progressive Carries",
@@ -32,6 +33,7 @@
 #'                     pos_group = "FW/AM",
 #'                     theme_color = "light")
 #' p
+#' }
 
 plot_pizza <- function(df, title, subtitle = "", caption = "", pos_group = "", theme_color, logo_path = "", title_loc = "left"){
 
