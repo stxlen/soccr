@@ -14,7 +14,11 @@ Depends: ggplot2
 Imports: 
     dplyr,
     ggtext,
-    sf
+    glue,
+    magick,
+    sf,
+    stringr,
+    tibble
 Suggests: 
     knitr,
     rmarkdown
