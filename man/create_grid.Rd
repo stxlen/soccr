@@ -12,6 +12,10 @@ create_grid(
 )
 }
 \arguments{
+\item{pitch_length}{Length of the pitch}
+
+\item{pitch_width}{Width of the pitch}
+
 \item{n_columns}{Number of columns}
 
 \item{n_rows}{Number of rows}

@@ -1,6 +1,6 @@
 #' xg_sim_goal
 #' @description Simulate the number of goals scored given a vector of shot xG values
-#' @param shot_xg_list
+#' @param shot_xg_list List of shot xG values
 #'
 #' @return The simulated number of goals scored
 #' @export

@@ -1,10 +1,10 @@
 #' Add logo to a plot
 #'
-#' @param plot_path
-#' @param logo_path
-#' @param logo_position
-#' @param logo_scale
-#' @param logo_padding
+#' @param plot_path Location of plot image to add logo to
+#' @param logo_path Location of logo image to add to plot
+#' @param logo_position Position of logo on plot. Options are "top right", "top left", "bottom right", "bottom left"
+#' @param logo_scale Scale of logo relative to plot width. Default is 10% of plot width
+#' @param logo_padding Padding between logo and plot edge. Default is 1% of plot width
 #'
 #' @return A
 #' @export

@@ -9,6 +9,8 @@ Right now only looks works for seconds before (lead), need to have a solution th
 filter_within_timeframe(.data, condition, time, lead_time = 0, lag_time = 0)
 }
 \arguments{
+\item{.data}{The data frame}
+
 \item{condition}{The event to find in dplyr fashion. Such as event == 'A'}
 
 \item{time}{The column/data that contains the timestamp}

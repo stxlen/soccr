@@ -49,6 +49,8 @@ draw_pitch_orig(
 
 \item{overlay}{Draw lines on top of the field. "JdeP" "grid_30" or FALSE}
 
+\item{arcs}{Boolean. Default TRUE}
+
 \item{padding}{Numeric. Default = 5}
 }
 \value{
