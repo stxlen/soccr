@@ -1,5 +1,7 @@
 #' Split a soccer pitch into user defined zones
 #'
+#' @param pitch_length Length of the pitch
+#' @param pitch_width Width of the pitch
 #' @param n_columns Number of columns
 #' @param n_rows Number of rows
 #' @return A tibble with zone definitions
