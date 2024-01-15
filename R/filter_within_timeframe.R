@@ -2,6 +2,7 @@
 #' For example, find all events 5 seconds prior to and including a shot
 #' Right now only looks works for seconds before (lead), need to have a solution that looks after and between two times
 #'
+#' @param .data The data frame
 #' @param condition The event to find in dplyr fashion. Such as event == 'A'
 #' @param time The column/data that contains the timestamp
 #' @param lead_time The number of seconds before the event occurs

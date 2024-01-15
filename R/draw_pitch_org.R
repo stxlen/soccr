@@ -15,6 +15,7 @@
 #' @param middlethird Boolean. Default FALSE
 #' @param BasicFeatures Boolean. Default FALSE
 #' @param overlay Draw lines on top of the field. "JdeP" "grid_30" or FALSE
+#' @param arcs Boolean. Default TRUE
 #' @param padding Numeric. Default = 5
 #' @return A plot of a pitch
 #' @export
