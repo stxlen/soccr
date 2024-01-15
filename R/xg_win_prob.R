@@ -11,6 +11,7 @@
 #' @export
 #'
 #' @examples
+#' #'\dontrun{
 #' df <- tibble(home_shot_xg = list(c(0.06, 0.03, 0.03, 0.02, 0.07, 0.26, 0.09, 0.08, 0.05, 0.02, 0.06, 0.22, 0.10, 0.06, 0.3, 0.24, 0.05, 0.06, 0.04, 0.21)),
 #'              away_shot_xg = list(c(0.06, 0.03, 0.04, 0.06)),
 #'              team_home = "BYU",
@@ -38,6 +39,7 @@
 #' ## 4            0            0  862 0.0862
 #' ## 5            4            0  761 0.0761
 #' ## 6            2            1  517 0.0517
+#' }
 
 xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
                         team_a_name = "team_a", team_b_name = "team_b",
