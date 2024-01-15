@@ -33,7 +33,7 @@
 #'                     theme_color = "light")
 #' p
 
-plot_radar_man <- function(df, title, subtitle = "", caption = "", pos_group = "", theme_color, logo_path = "", title_loc = "left"){
+plot_pizza <- function(df, title, subtitle = "", caption = "", pos_group = "", theme_color, logo_path = "", title_loc = "left"){
 
   # SET THEME COLORS ###########################################################################
   if (theme_color == "light" || theme_color == "") {
