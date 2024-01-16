@@ -24,7 +24,7 @@ plot_add_logo(
 \item{logo_padding}{Padding between logo and plot edge. Default is 1\% of plot width}
 }
 \value{
-A
+An image file
 }
 \description{
 Add logo to a plot

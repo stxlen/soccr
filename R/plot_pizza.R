@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-#' #' \dontrun{
+#' \dontrun{
 #' scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
 #'                           statistic = c("Non-Penalty Goals", "Assists", "Shot-Creating Actions",
 #'                           "Pass Completion Perc", "Progressive Passes", "Progressive Carries",
@@ -132,9 +132,22 @@ plot_pizza <- function(df, title, subtitle = "", caption = "", pos_group = "", t
     return(p)
 
   } else {
-    temp_plot <- tempfile("plot", fileext = ".png")
-    ggsave(temp_plot, p, width = 2700, height =3000, units = "px")
-    plot_add_logo(temp_plot, logo_path, logo_position = "top right", logo_scale = 12, logo_padding = 0.01)
+    # Old way of adding logo
+    # temp_plot <- tempfile("plot", fileext = ".png")
+    # ggsave(temp_plot, p, width = 2700, height =3000, units = "px")
+    # plot_add_logo(temp_plot, logo_path, logo_position = "top right", logo_scale = 12, logo_padding = 0.01)
+
+    # New way of adding logo
+    logo_plot <- ggplot() +
+      theme_void() +
+      annotation_custom(rasterGrob( x = 0, y = 1,
+                                    image_read(logo_path),
+                                    just = c('left', 'top'), width = unit(0.5, 'inches')))
+
+    p2 <- p +
+      inset_element(logo_plot, 0, 0, 1, 1)
+
+    return(p2)
   }
 
 }
