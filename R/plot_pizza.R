@@ -4,7 +4,7 @@
 #'
 #' @param df A data frame with six columns: player, statistic, value, percentile, category and color. `percentile` is expected to be a number between 0 and 99.
 #' @param title Text to appear as the title
-#' @param subtitle Text to appear in the subtile.
+#' @param subtitle Text to appear in the subtitle.
 #' @param caption Text to appear in the caption (bottom)
 #' @param theme_color The theme color to use: light or dark. Default is light.
 #' @param pos_group The position group to use for the average line text. Not required.
@@ -114,7 +114,7 @@ plot_pizza <- function(df, title, subtitle = "", caption = "", pos_group = "", t
              axis.text.y = element_blank(),
              axis.text.x = element_text(size = 12, color = colorText),
              text = element_text(color = colorText, size = 20),
-             plot.title = element_text(hjust = title_pos, size = 26, color = colorText, face = "bold"),
+             plot.title = element_markdown(hjust = title_pos, size = 26, color = colorText, face = "bold"),
              plot.subtitle = element_text(hjust = title_pos, size = 12, color = colorText),
              plot.caption = element_text(hjust = 0.5, size = 9, color = colorText),
              panel.grid.major = element_blank(),

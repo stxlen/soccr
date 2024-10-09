@@ -43,6 +43,7 @@ following columns named exactly as shown: player, statistic, value, percentile, 
 follow the order of the data frame.
 }
 \examples{
+\dontrun{
 scaled_data <- data.frame(player = rep("Alexia Putellas", 12),
                           statistic = c("Non-Penalty Goals", "Assists", "Shot-Creating Actions",
                           "Pass Completion Perc", "Progressive Passes", "Progressive Carries",
@@ -60,4 +61,5 @@ p <- plot_radar_man(scaled_data,
                     pos_group = "FW/AM",
                     theme_color = "light")
 p
+}
 }
