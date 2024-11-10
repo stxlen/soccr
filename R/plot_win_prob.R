@@ -8,9 +8,9 @@
 plot_win_prob <- function(xg_win_prob_df){
 
   # Set colors for winning/losing teams
-  if(abs(round(xg_win_prob_df[[1]]$prob[1] - xg_win_prob_df[[1]]$prob[3], 2)) <= 0.05){
+  if(abs(round(xg_win_prob_df[[1]]$prob[1] - xg_win_prob_df[[1]]$prob[2], 2)) <= 0.05){
     plot_colors <- c("black", "grey", "black")
-  }else if(xg_win_prob_df[[1]]$prob[1] > xg_win_prob_df[[1]]$prob[3]){
+  }else if(xg_win_prob_df[[1]]$prob[1] > xg_win_prob_df[[1]]$prob[2]){
     plot_colors <- c("darkred", "grey", "darkgreen")
   }else{
     plot_colors <- c("darkgreen", "grey", "darkred")
@@ -18,10 +18,10 @@ plot_win_prob <- function(xg_win_prob_df){
 
   # Calculate center of draw bar
   # To Do: Use repel to move away from teams at the edges. Right now sets a limit how far toward edge can move
-  if(xg_win_prob_df[[1]]$prob[1] < 0.15){
-  draw_center <- 0.15
-  } else if (xg_win_prob_df[[1]]$prob[1] + xg_win_prob_df[[1]]$prob[2] > 0.85){
-    draw_center <- 0.85
+  if(xg_win_prob_df[[1]]$prob[1] < 30){
+  draw_center <- 0.30
+  } else if (xg_win_prob_df[[1]]$prob[1] + xg_win_prob_df[[1]]$prob[2] > 0.70){
+    draw_center <- 0.70
   } else {draw_center <- xg_win_prob_df[[1]]$prob[1] + (xg_win_prob_df[[1]]$prob[3] / 2 ) }
 
 
@@ -68,7 +68,7 @@ plot_win_prob <- function(xg_win_prob_df){
     ) +
     labs(
       title = "Win Probability",
-      subtitle = "based on xG simulation",
+      subtitle = "based on a Monte Carlo xG simulation",
       y = NULL, x = NULL
     )
   })
