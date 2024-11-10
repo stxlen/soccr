@@ -18,11 +18,20 @@ plot_win_prob <- function(xg_win_prob_df){
 
   # Calculate center of draw bar
   # To Do: Use repel to move away from teams at the edges. Right now sets a limit how far toward edge can move
-  if(xg_win_prob_df[[1]]$prob[1] < 30){
-  draw_center <- 0.30
-  } else if (xg_win_prob_df[[1]]$prob[1] + xg_win_prob_df[[1]]$prob[2] > 0.70){
+  # if(xg_win_prob_df[[1]]$prob[1] < 0.30){
+  # draw_center <- 0.30
+  # } else if (xg_win_prob_df[[1]]$prob[1] + xg_win_prob_df[[1]]$prob[3] > 0.70){
+  #   draw_center <- 0.70
+  # } else {draw_center <- xg_win_prob_df[[1]]$prob[1] + (xg_win_prob_df[[1]]$prob[3] / 2 ) }
+
+  # Calculate center of draw bar 2nd method
+  # To Do: Use repel to move away from teams at the edges. Right now sets a limit how far toward edge can move
+  calc_draw_center <- xg_win_prob_df[[1]]$prob[1] + (xg_win_prob_df[[1]]$prob[3] / 2 )
+  if(calc_draw_center < 0.30){
+    draw_center <- 0.30
+  } else if (calc_draw_center > 0.70){
     draw_center <- 0.70
-  } else {draw_center <- xg_win_prob_df[[1]]$prob[1] + (xg_win_prob_df[[1]]$prob[3] / 2 ) }
+  } else {draw_center <- calc_draw_center}
 
 
   # Quiets the following warning:
