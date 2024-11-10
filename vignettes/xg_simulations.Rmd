@@ -32,7 +32,7 @@ set.seed(123)
 xg_sim_goal(0.1)
 ```
 
- A list of xG can be passed to `xg_sim_goal()` and it will return the total number of goals scored.
+A list of xG can be passed to `xg_sim_goal()` and it will return the total number of goals scored.
 
 ```{r}
 xg_sim_goal(c(0.1, 0.1, 0.3, 0.25, 0.1, 0.4, 0.25, 0.1, 0.1, 0.1, 0.4))
@@ -58,7 +58,8 @@ Simulating a single match once is not very usefule. Using `xg_win_prob()` we can
 ```{r}
 result_prob <- xg_win_prob(shot_df$team_shots_xg, shot_df$opp_shots_xg,
                            "Team A", "Team B",
-                           n = 10000)
+                           n = 10000,
+                           seed = 123)
 
 result_prob[[1]]
 
@@ -105,7 +106,11 @@ season_data <- teams |>
                                   .default = list(abs(round(rnorm(sample(8:16, 1), 0.1, 0.05), 2))))) |>
   ungroup()
 
-xg_sim_season_pts(season_data, points_method  = "share") |>
+season_data |>
+  glimpse()
+
+xg_sim_season_pts(season_data, 
+                  points_method  = "share") |>
   gt()
 
 ```
