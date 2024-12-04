@@ -5,15 +5,21 @@
 #' @return
 #' @export
 #'
-plot_win_prob <- function(xg_win_prob_df){
+plot_win_prob <- function(xg_win_prob_df, team_a_color, team_b_color, cust_alpha = 0.3){
 
-  # Set colors for winning/losing teams
-  if(abs(round(xg_win_prob_df[[1]]$prob[1] - xg_win_prob_df[[1]]$prob[2], 2)) <= 0.05){
-    plot_colors <- c("black", "grey", "black")
-  }else if(xg_win_prob_df[[1]]$prob[1] > xg_win_prob_df[[1]]$prob[2]){
-    plot_colors <- c("darkred", "grey", "darkgreen")
-  }else{
-    plot_colors <- c("darkgreen", "grey", "darkred")
+  # Set team colors or use green/red as defaults
+  if(missing(team_a_color) & missing(team_b_color)){
+
+    # Set colors for winning/losing teams
+    if(abs(round(xg_win_prob_df[[1]]$prob[1] - xg_win_prob_df[[1]]$prob[2], 2)) <= 0.05){
+      plot_colors <- c("black", "grey", "black")
+    }else if(xg_win_prob_df[[1]]$prob[1] > xg_win_prob_df[[1]]$prob[2]){
+      plot_colors <- c("darkred", "grey", "darkgreen")
+    }else{
+      plot_colors <- c("darkgreen", "grey", "darkred")
+    }
+  } else {
+    plot_colors <- c(team_b_color, "grey", team_a_color)
   }
 
   # Calculate center of draw bar
@@ -47,7 +53,7 @@ plot_win_prob <- function(xg_win_prob_df){
     scale_y_discrete(expand = c(0, 0, 0, 0), guide = "none") +
     geom_col(
       width = 0.9,
-      alpha = 0.40
+      alpha = cust_alpha
     ) +
     geom_text(
       aes(label = paste0(round(prob * 100, 0), "%")
