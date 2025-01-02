@@ -2,7 +2,7 @@
 title: "Pizza Plots"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{pizza_plots}
+  %\VignetteIndexEntry{Pizza Plots}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
