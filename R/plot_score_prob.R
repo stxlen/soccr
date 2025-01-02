@@ -2,7 +2,7 @@
 #'
 #' @param xg_win_prob_df A dataframe created with xg_win_prob()
 #'
-#' @return
+#' @return A ggplot object
 #' @export
 #'
 plot_score_prob <- function(xg_win_prob_df){
@@ -27,7 +27,7 @@ plot_score_prob <- function(xg_win_prob_df){
                                  TRUE ~ paste0(round(prob*100,0), "%"))) |>
     arrange(team_a_goals, team_b_goals)
 
-  ggplot(data = score_matrix, aes(x = team_a_goals , y =  team_b_goals, fill = prob)) +
+  p <- ggplot(data = score_matrix, aes(x = team_a_goals , y =  team_b_goals, fill = prob)) +
     geom_tile() +
     scale_fill_gradient(low = "white", high = "darkmagenta") +
     scale_y_continuous(breaks = custom_breaks) +
@@ -49,4 +49,6 @@ plot_score_prob <- function(xg_win_prob_df){
     ggtitle("Score Probability Matrix", subtitle = "percentage of goal combinations from xG simulation") +
     coord_fixed() +
     guides(fill="none")
+
+  return(p)
 }

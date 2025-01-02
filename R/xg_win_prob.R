@@ -1,13 +1,13 @@
 #' Simulate matches to calculate win-draw-win probabilities
 #'
-#' @param team_a_shots_xg vector of shot xG values for team A
-#' @param team_b_shots_xg vector of shot xG values for team B
+#' @param team_a_xg_list list of shot xG values for team A
+#' @param team_b_xg_list list of shot xG values for team B
 #' @param team_a_name name of team A
 #' @param team_b_name name of team B
 #' @param n_sim number of simulations to run
 #' @param seed seed for reproducibility
 #'
-#' @return
+#' @return A list of two data frames: 1) win-win-draw probabilities and 2) result probabilities
 #' @export
 #'
 #' @examples
@@ -17,8 +17,8 @@
 #'              team_home = "BYU",
 #'              team_away = "Stanford")
 #'
-#' sim_df <- xg_win_prob(team_a_shots_xg = home_shot_xg,
-#'                       team_b_shots_xg = away_shot_xg,
+#' sim_df <- xg_win_prob(team_a_xg_list = home_shot_xg,
+#'                       team_b_xg_list = away_shot_xg,
 #'                       team_a_name = team_home,
 #'                       team_b_name = team_away,
 #'                       n_sim = 10000)
@@ -41,7 +41,7 @@
 #' ## 6            2            1  517 0.0517
 #' }
 
-xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
+xg_win_prob <- function(team_a_xg_list, team_b_xg_list,
                         team_a_name = "team_a", team_b_name = "team_b",
                         n_sim = 10000, seed = 123){
 
@@ -51,8 +51,8 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
   }
 
   # Unlist shots
-  team_a_shots_xg <- unlist(team_a_shots_xg)
-  team_b_shots_xg <- unlist(team_b_shots_xg)
+  team_a_xg_list <- unlist(team_a_xg_list)
+  team_b_xg_list <- unlist(team_b_xg_list)
 
   # Initialize empty lists
   team_a_goals <- list()
@@ -61,7 +61,7 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
   # Run the simulation n times
   for (i in 1:n_sim) {
     # Get simulated goals for each team
-    simulated_goals <- xg_sim_match(team_a_shots_xg, team_b_shots_xg)
+    simulated_goals <- xg_sim_match(team_a_xg_list, team_b_xg_list)
 
     # Store team-specific goals in separate lists
     team_a_goals[[i]] <- simulated_goals[[1]]
@@ -120,8 +120,6 @@ xg_win_prob <- function(team_a_shots_xg, team_b_shots_xg,
 
   # Bonus to return team names for plotting purposes
   team_names <- c(team_a_name, team_b_name)
-
-
 
   # Return a list of the three data frames
   list(win_prob, result_prob)

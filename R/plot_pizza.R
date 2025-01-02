@@ -10,7 +10,7 @@
 #' @param pos_group The position group to use for the average line text. Not required.
 #' @param logo_path The path to the logo to use. Not required.
 #' @param title_loc The location of the title: left, center, or right. Default is left.
-#'=
+#'
 #' @return A ggplot object
 #' @export
 #'

@@ -8,33 +8,51 @@
 #' @param n_sim The number of simulations to run (default = 10000).
 #' @param points_method The method used to calculate points. Options are "share" (default) or "full".
 #'
-#' @return
+#' @return A tibble with columns team_name, points, n_games, and rank.
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # Create data simulating a season of 4 teams playing each team once.
-#' set.seed(123)
-#'
-#' teams <- tibble(team_a = c("Team A", "Team B", "Team C", "Team D"), team_b = c("Team A", "Team B", "Team C", "Team D"))
+#'\dontrun{
+#' teams <- tibble(team = c("Team A", "Team B", "Team C", "Team D"),
+#'                 opponent = c("Team A", "Team B", "Team C", "Team D"))
 #'
 #' season_data <- teams |>
-#'   expand(team_a, team_b) |>
-#'   filter(team_a != team_b) |>
+#'   expand(team, opponent) |>
+#'   filter(team != opponent) |>
 #'   mutate(match_id = row_number()) |>
 #'   rowwise() |>
-#'   mutate(team_a_xg_list = list(round(rnorm(sample(6:14, 1), 0.1, 0.05),2)),
-#'          team_b_xg_list = list(round(rnorm(sample(6:14, 1), 0.1, 0.05),2))) |>
+#'   # Make B a little better than the rest and C a little worse
+#'   mutate(team_xg_list = case_when(team == "Team B" ~list(abs(round(rnorm(sample(12:18, 1), 0.15, 0.08), 2))),
+#'                                   team == "Team C" ~list(abs(round(rnorm(sample(6:10, 1), 0.10, 0.05), 2))),
+#'                                   .default = list(abs(round(rnorm(sample(10:16, 1), 0.1, 0.05), 2)))),
+#'          opp_xg_list = case_when(opponent == "Team B" ~list(abs(round(rnorm(sample(12:18, 1), 0.15, 0.08), 2))),
+#'                                  opponent == "Team C" ~list(abs(round(rnorm(sample(6:10, 1), 0.10, 0.05), 2))),
+#'                                  .default = list(abs(round(rnorm(sample(10:16, 1), 0.1, 0.05), 2))))) |>
 #'   ungroup()
 #'
-#' xg_sim_season_pts(season_data)
-#' ##  A tibble: 4 × 4
-#' ##  team_name points n_games  rank
-#' ##  <chr>      <dbl>   <int> <int>
-#' ##1 Team D        13       6     1
-#' ##2 Team A         8       6     2
-#' ##3 Team B         7       6     3
-#' ##4 Team C         6       6     4
+#' season_data |>
+#'   glimpse()
+#' # Rows: 12
+#' # Columns: 5
+#' # $ team         <chr> "Team A", "Team A", "Te…
+#' # $ opponent     <chr> "Team B", "Team C", "Te…
+#' # $ match_id     <int> 1, 2, 3, 4, 5, 6, 7, 8,…
+#' # $ team_xg_list <list> <0.12, 0.14, 0.16, 0.1…
+#' # $ opp_xg_list  <list> <0.08, 0.09, 0.09, 0.1…
+#'
+#' xg_sim_season_pts(season_data,
+#'                   team_a = team,
+#'                   team_b = opponent,
+#'                   team_a_xg_list = team_xg_list,
+#'                   team_b_xg_list = opp_xg_list,
+#'                   points_method  = "full")
+#' # A tibble: 4 × 4
+#' # team_name points n_games  rank
+#' # <chr>      <dbl>   <int> <int>
+#' # 1 Team B      18       6     1
+#' # 2 Team A      12       6     2
+#' # 3 Team D       6       6     3
+#' # 4 Team C       0       6     4
 #' }
 xg_sim_season_pts <- function(df,
                               team_a = "team",
