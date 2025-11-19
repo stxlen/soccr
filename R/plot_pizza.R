@@ -115,8 +115,8 @@ plot_pizza <- function(df, title, subtitle = "", caption = "", pos_group = "", t
              axis.text.x = element_text(size = 12, color = colorText),
              text = element_text(color = colorText, size = 20),
              plot.title = element_markdown(hjust = title_pos, size = 26, color = colorText, face = "bold"),
-             plot.subtitle = element_text(hjust = title_pos, size = 12, color = colorText),
-             plot.caption = element_text(hjust = 0.5, size = 9, color = colorText),
+             plot.subtitle = element_markdown(hjust = title_pos, size = 12, color = colorText),
+             plot.caption = element_markdown(hjust = 0.5, size = 9, color = colorText),
              panel.grid.major = element_blank(),
              panel.grid.minor = element_blank()) +
        scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 1))
